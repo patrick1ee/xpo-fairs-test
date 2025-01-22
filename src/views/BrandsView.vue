@@ -29,8 +29,6 @@ const sortByOptions = ref([
 
 async function onSearch() {
   return
-  if (searchText.value.length === 0) await fetchBrands()
-  else await searchBrand(searchText.value)
 }
 
 const visibleBrands = computed(() => {
@@ -91,33 +89,10 @@ div.header-container {
 }
 
 h1.page-title {
-  color: var(--color-nearly-black);
-  font-family: Inter;
+  color: #212529;
   font-weight: 800;
   text-align: left;
   margin: 0;
-}
-
-h1.page-title-fixed{
-  font-size: 30px;
-  line-height: 38px; /* 126.667% */
-}
-
-h1.page-title-scrolling{
-  font-size: 20px;
-  line-height: 10px; /* 100% */
-  margin: 0;
-}
-
-div.top-bar-scroll {
-  position: sticky;
-  top: 0;
-  z-index: 1;
-  width: calc(100% + 2 * var(--main-padding));
-  margin: 0 0 0 calc(-1 * var(--main-padding));
-  padding: 10px var(--main-padding) 10px var(--main-padding);
-  background-color: #FFF;
-  box-shadow: 0px 10px 10px -15px #111;
 }
 
 div.sub-nav-container {
@@ -148,6 +123,20 @@ div.brand-grid {
     grid-template-columns: repeat(auto-fill, 30% );
     gap: 30px;
   }
+
+@media (max-width: 1250px) {
+    div.brand-grid {
+    grid-template-columns: repeat(auto-fill, 45% );
+  }
+}
+
+@media (max-width: 750px) {
+    div.brand-grid {
+    grid-template-columns: repeat(auto-fill, 100% );
+  }
+}
+
+
 div.qr-list-container {
   width: 100%;
   margin-top: 0.96rem;

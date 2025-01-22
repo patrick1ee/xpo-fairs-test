@@ -121,8 +121,7 @@ div.text-input-wrapper {
 
 .text-input-text {
   flex: 1 0 0;
-  color: var(--color-nearly-black);
-  font-family: Inter;
+  color: #212529;
   font-size: var(--font-size-14);
   font-weight: 400;
   line-height: 14px; /* 100% */

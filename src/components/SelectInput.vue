@@ -64,8 +64,7 @@ select.select-wrapper {
   border-radius: 8px;
   border: 1px solid rgba(33, 37, 41, 0.10);
   background: #FFF;
-  color: var(--color-nearly-black);
-  font-family: Inter;
+  color: #212529;
   font-size: 13px;
   font-weight: 400;
   line-height: 14px; /* 107.692% */
@@ -73,8 +72,7 @@ select.select-wrapper {
 }
 
 label.select-label {
-  color: var(--color-nearly-black);
-  font-family: Inter;
+  color: #212529;
   font-size: 13px;
   font-weight: 400;
   line-height: 14px; /* 107.692% */

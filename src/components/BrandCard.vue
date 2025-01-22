@@ -137,8 +137,7 @@ const cssBrandHall = computed(() => {
   }
 
   p.brand-label {
-    color: var(--color-nearly-black);
-    font-family: Inter;
+    color: #212529;
     font-size: 16px;
     font-weight: 600;
     line-height: 20px; /* 142.857% */
