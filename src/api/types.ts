@@ -22,3 +22,8 @@ export interface Brand {
     product_tag: string;
     stand_number: string;
   }
+
+export type BrandSearchResponse = ApiResponse<{
+  message: string;
+  brands: Brand[]
+}>

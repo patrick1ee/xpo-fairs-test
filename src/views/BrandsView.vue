@@ -3,7 +3,10 @@ import { ref, onMounted, onUnmounted } from 'vue'
 import { useRouter } from 'vue-router'
 import { storeToRefs } from 'pinia'
 import { usebrandStore } from '@/stores/brandStore'
-import { api } from '@/api'
+
+import  BrandCard from '@/components/BrandCard.vue'
+import SearchInput from '@/components/SearchInput.vue'
+import SelectInput from '@/components/SelectInput.vue'
 
 import type { Brand } from '@/api/types'
 
@@ -12,9 +15,20 @@ const router = useRouter()
 const brandStore = usebrandStore()
 
 const { brands } = storeToRefs(brandStore)
-const { fetchBrands } = brandStore
+const { fetchBrands, searchBrand, sortBrands } = brandStore
 
 const searchText = ref('')
+const sortBy = ref('Newest')
+const sortByOptions = ref([
+  'Name',
+  'Location',
+  'Hall'
+])
+
+async function onSearch() {
+  if (searchText.value.length === 0) await fetchBrands()
+  else await searchBrand(searchText.value)
+}
 
 /* function getVisibleBrands () {
   let visibleSubProfiles = subProfiles.value
@@ -33,41 +47,54 @@ onMounted(async () => await fetchBrands())
 
 <template>
     <div class="view-container">
-      <div class="view-content container-fluid">
         <div class="d-flex flex-row">
-          <div style="flex: 1">
-            <h1 class="page-title page-title-fixed">Keypins</h1>
+          <div class="header-container">
+            <h1 class="page-title">Brands</h1>
+            <div class="search-container">
+                <SearchInput
+                @update:modelValue="onSearch"
+                v-model="searchText"
+                placeholder="Search brands..."/>
+            </div>
+            <div class="select-container">
+                <SelectInput @update:value="sortBrands" :options="sortByOptions" v-model="sortBy" label="Sort by" layout="row"/>
+            </div>
           </div>
         </div>
         <div  class="row search-select-container">
-          <div class="search-container col-xl-6 col-lg-4 d-sm-block d-none">
-            <SearchInput
-              v-model="searchText"
-              placeholder="Search your QR Codes..."/>
-          </div>
         </div>
-        <div class="row">
-          <div class="qr-list-container">
+        <div class="brand-grid">
             <div
                 v-for="brand in (brands as Brand[])"
                 :key="brand.BrandID"
                 class="qr-grid-item-container"
                 >
-                    <h1>{{ brand.brand_name }}</h1>
-                </div>
-          </div>
+                    <BrandCard :brand="brand" />
+            </div>
         </div>
-      </div>
     </div>
 </template>
 
 <style scoped lang="scss">
 
+div.view-container {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    padding: 5%;
+}
+
+div.header-container {
+    display: flex;
+    gap: 25px;
+}
+
 h1.page-title {
   color: var(--color-nearly-black);
   font-family: Inter;
   font-weight: 800;
-  width: 100%;
   text-align: left;
   margin: 0;
 }
@@ -105,11 +132,23 @@ div.search-select-container {
 
 div.search-container {
   padding: 0;
+  display: flex;
+  align-items: center;
 }
 
-.create-qr-button-icon {
-  margin-right: 0.5rem;
+div.select-container {
+  padding: 0;
+  width: 400px;
+  display: flex;
+  align-items: center;
 }
+
+div.brand-grid {
+    width: 100%;
+    display: grid;
+    grid-template-columns: repeat(auto-fill, 270px );
+    gap: 30px;
+  }
 div.qr-list-container {
   width: 100%;
   margin-top: 0.96rem;

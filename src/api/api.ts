@@ -1,7 +1,7 @@
 // Importing apisauce for API requests
 import { create } from 'apisauce';
 import type { ApisauceInstance } from 'apisauce';
-import type { Brand, DataResponse } from './types';
+import type { Brand, DataResponse, BrandSearchResponse } from './types';
 import { getGeneralApiProblem, type GeneralApiProblem } from './apiProblem';
 
 
@@ -24,8 +24,6 @@ class Api {
       this.getExhibitors = this.getExhibitors.bind(this);
   
     }
-    
-  
   
   async getBrands(): Promise<{ kind: 'ok'; brands: Brand[] } | GeneralApiProblem> {
     const response: DataResponse<Brand[]> = await this.apisauce.get('/brands');
@@ -38,6 +36,28 @@ class Api {
       if (response.data === undefined) return { kind: 'bad-data' }
 
       const brands = response.data.data
+  
+      return { kind: 'ok', brands }
+  }
+
+  async searchBrand(
+    brand_name: string,
+    location: string,
+    product_tag: string,
+    hall: string
+  ): Promise<{ kind: 'ok'; brands: Brand[] } | GeneralApiProblem> {
+    const response: BrandSearchResponse = await this.apisauce.get(
+      `/brands/search?name=${brand_name}&location=${location}`//&product_tag=${product_tag}&hall=${hall}`
+      );
+  
+      if (!response.ok) {
+        const problem = getGeneralApiProblem(response)
+        if (problem) return problem
+      }
+  
+      if (response.data === undefined) return { kind: 'bad-data' }
+
+      const brands = response.data.brands
   
       return { kind: 'ok', brands }
   }
