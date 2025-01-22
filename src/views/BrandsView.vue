@@ -4,6 +4,8 @@ import { useRouter } from 'vue-router'
 import { storeToRefs } from 'pinia'
 import { usebrandStore } from '@/stores/brandStore'
 
+import { SlickList, SlickItem } from 'vue-slicksort'
+
 import  BrandCard from '@/components/BrandCard.vue'
 import SearchInput from '@/components/SearchInput.vue'
 import SelectInput from '@/components/SelectInput.vue'
@@ -67,7 +69,6 @@ onMounted(async () => await fetchBrands())
             <div
                 v-for="brand in (brands as Brand[])"
                 :key="brand.BrandID"
-                class="qr-grid-item-container"
                 >
                     <BrandCard :brand="brand" />
             </div>
@@ -146,7 +147,7 @@ div.select-container {
 div.brand-grid {
     width: 100%;
     display: grid;
-    grid-template-columns: repeat(auto-fill, 270px );
+    grid-template-columns: repeat(auto-fill, 30% );
     gap: 30px;
   }
 div.qr-list-container {

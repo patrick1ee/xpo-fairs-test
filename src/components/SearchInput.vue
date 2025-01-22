@@ -53,6 +53,6 @@ const value = computed({
     :wrapperStyle="wrapperStyle"
     :textStyle="textStyle"
   >
-    <img :src="`@/assets/icons/svg/search.svg`"/>
+    <img style="width: 15px; height: 15px" src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSyi_CVTmoL1ITHFxQkfLwvj93hcsgA1Olkhg&s"/>
   </TextInput>
 </template>
