@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { ref, onMounted, onUnmounted } from 'vue'
+import { ref, onMounted, computed } from 'vue'
 import { useRouter } from 'vue-router'
 import { storeToRefs } from 'pinia'
 import { usebrandStore } from '@/stores/brandStore'
@@ -28,20 +28,18 @@ const sortByOptions = ref([
 ])
 
 async function onSearch() {
+  return
   if (searchText.value.length === 0) await fetchBrands()
   else await searchBrand(searchText.value)
 }
 
-/* function getVisibleBrands () {
-  let visibleSubProfiles = subProfiles.value
-  if (currentTab.value === 1) visibleSubProfiles = subProfiles.value.filter((sp: ListSubProfile) => sp.active)
-  else if (currentTab.value === 2) visibleSubProfiles = subProfiles.value.filter((sp: ListSubProfile) => !sp.active)
-
-  if (searchText.value.length > 0) visibleSubProfiles = visibleSubProfiles.filter((sp: ListSubProfile) => sp.label.toLowerCase().includes(searchText.value.toLowerCase()))
-  if (sortBy.value === 'Newest') return visibleSubProfiles.sort(function (a: ListSubProfile, b: ListSubProfile) { return b.id.localeCompare(a.id) })
-  else if (sortBy.value === 'A-Z') return visibleSubProfiles.sort(function (a: ListSubProfile, b: ListSubProfile) { return a.label.localeCompare(b.label) })
-  return visibleSubProfiles
-} */
+const visibleBrands = computed(() => {
+  return brands.value.filter((brand: Brand) => {
+    return brand.brand_name.toLowerCase().includes(searchText.value.toLowerCase()) ||
+    brand.location.toLowerCase().includes(searchText.value.toLowerCase()) ||
+    brand.exhibitor && brand.exhibitor.name.toLowerCase().includes(searchText.value.toLowerCase())
+  })
+})
 
 onMounted(async () => await fetchBrands())
 
@@ -67,7 +65,7 @@ onMounted(async () => await fetchBrands())
         </div>
         <div class="brand-grid">
             <div
-                v-for="brand in (brands as Brand[])"
+                v-for="brand in (visibleBrands as Brand[])"
                 :key="brand.BrandID"
                 >
                     <BrandCard :brand="brand" />

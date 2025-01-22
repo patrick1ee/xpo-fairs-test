@@ -1,14 +1,10 @@
-// Importing apisauce for API requests
 import { create } from 'apisauce';
 import type { ApisauceInstance } from 'apisauce';
 import type { Brand, DataResponse, BrandSearchResponse } from './types';
 import { getGeneralApiProblem, type GeneralApiProblem } from './apiProblem';
 
-
-// Base URL for the API
 const BASE_URL = 'https://admin.thetoyfair.eu/api/';
 
-// API Client Class
 class Api {
     apisauce: ApisauceInstance
   
@@ -20,7 +16,7 @@ class Api {
         }
       })
 
-      this.getBrands = this.getBrands.bind(this); // Bind method to this instance
+      this.getBrands = this.getBrands.bind(this);
       this.getExhibitors = this.getExhibitors.bind(this);
   
     }

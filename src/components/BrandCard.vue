@@ -54,7 +54,7 @@ const { brand } = defineProps({
 
 const cssBrandHall = computed(() => {
   return {
-    backgroundColor: alphaNumericToColor[brand.hall[0].toUpperCase()]
+    backgroundColor: alphaNumericToColor[brand.hall]
   }
 })
 
